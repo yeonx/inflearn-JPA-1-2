@@ -21,10 +21,11 @@ public class ItemUpdateTest {
         Book book = em.find(Book.class, 1L);
 
         //TX
-        book.setName("");
+        book.setName("example");
 
         //변경 감지 == dirty checking
         //TX commit
+
 
     }
 }
