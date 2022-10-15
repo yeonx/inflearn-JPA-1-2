@@ -108,5 +108,23 @@ public class OrderRepository {
         ).getResultList();
     }
 
+    public List<Order> findAllWithMemberDelivery(int offset, int limit){
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 
+    public List<Order> findAllWithItem() {
+        return em.createQuery( // 1:다 -> 페이징이 불가능해짐
+                "select distinct o from Order o" +
+                        " join fetch o.member m" + // toOne 관계는 fetch조인으로 하는 것이 좋음.
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i",Order.class)
+                .getResultList();
+    }
 }
